@@ -12,6 +12,7 @@ class BillingController extends Controller
         return view('billing');
     }
 
+    // ส่วนของการปริ้นใบแจ้งหนี้ โดยใช้ Route และส่งค่าไปยัง Controller ด้วย {billingId} ที่ระบุ
     public function printBilling($billingId)
     {
         $billing = BillingModel::find($billingId);
@@ -20,6 +21,7 @@ class BillingController extends Controller
         return view('print-billing', compact('billing', 'organization'));
     }
 
+    // ส่วนของการปริ้นใบแจ้งหนี้ โดยใช้ Route และส่งค่าไปยัง Controller ด้วย {billingId} ที่ระบุ
     public function printInvoice($billingId)
     {
         $billing = BillingModel::find($billingId);

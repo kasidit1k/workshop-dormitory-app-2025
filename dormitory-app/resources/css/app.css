@@ -1,6 +1,14 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        font-family: "Outfit", sans-serif;
+    }
+}
 
 .btn {
     @apply w-full p-2 bg-gray-800 text-white rounded-md hover:bg-gray-900;
@@ -18,7 +26,6 @@
 .btn-secondary {
     @apply px-4 py-2 text-sm font-medium text-gray-700 bg-gray-300 rounded-lg hover:bg-gray-200 transition-colors mr-2;
 }
-
 
 /* สำหรับ input company */
 .btn-input-form-company {
@@ -138,4 +145,46 @@
 
 .alert-danger {
     @apply bg-neutral-700 text-white p-3 rounded-md pl-5 mb-3;
+}
+
+/* รายได้ - สีฟ้าเทา */
+.box-income {
+    @apply text-slate-800 bg-slate-100 p-3 rounded-sm w-full text-sm 
+    border-l-4 border border-slate-300 border-l-slate-500
+    hover:bg-slate-200 transition-all duration-200;
+}
+
+/* ค่าห้อง - สีม่วงเทา */
+.box-room-fee {
+    @apply text-purple-900 bg-purple-50 p-3 rounded-sm w-full text-sm 
+    border-l-4 border border-purple-300 border-l-purple-400
+    hover:bg-purple-100 transition-all duration-200;
+}
+
+/* กล่องหนี้ - สีส้มเทา */
+.box-debt {
+    @apply text-amber-900 bg-amber-50 p-3 rounded-sm w-full text-sm 
+    border-l-4 border border-amber-300 border-l-amber-400
+    hover:bg-amber-100 transition-all duration-200;
+}
+
+/* การชำระเงิน - สีน้ำเงินเทา */
+.box-pay {
+    @apply text-blue-900 bg-blue-50 p-3 rounded-sm w-full text-sm 
+    border-l-4 border border-blue-300 border-l-blue-400
+    hover:bg-blue-100 transition-all duration-200;
+}
+
+/* ยอดคงเหลือบวก - สีเขียวเทา */
+.box-balance-positive {
+    @apply text-emerald-900 bg-emerald-50 p-3 rounded-sm w-full text-sm 
+    border-l-4 border border-emerald-300 border-l-emerald-400
+    hover:bg-emerald-100 transition-all duration-200;
+}
+
+/* ยอดคงเหลือลบ - สีแดงเทา */
+.box-balance-negative {
+    @apply text-rose-900 bg-rose-50 p-3 rounded-sm w-full text-sm 
+    border-l-4 border border-rose-300 border-l-rose-400
+    hover:bg-rose-100 transition-all duration-200;
 }

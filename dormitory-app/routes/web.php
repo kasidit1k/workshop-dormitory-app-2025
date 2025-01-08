@@ -36,3 +36,6 @@ Route::get('/billing', [BillingController::class, 'index']);
 
 // ส่วนของการปริ้นใบแจ้งหนี้ โดยใช้ Route และส่งค่าไปยัง Controller ด้วย {billingId} ที่ระบุ 
 Route::get('/print-billing/{billingId}', [BillingController::class, 'printBilling']);
+
+// ส่วนของการเรียกใช้งาน BillingController โดยใช้ Route
+Route::get('/print-invoice/{id}', [BillingController::class, 'printInvoice']);
