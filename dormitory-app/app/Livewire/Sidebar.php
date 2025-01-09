@@ -7,25 +7,25 @@ use Livewire\Component;
 
 class Sidebar extends Component 
 {
-    public $currentMenu = ''; // สร้างตัวแปร currentMenu เพื่อเก็บค่าของเมนูที่ถูกเลือก
+    public $currentMenu = ''; // เก็บค่าเมนูที่ถูกเลือก
 
     public function mount()
     {
         $user_id = session()->get('user_id'); // อ่านค่า user_id จาก session
 
-        if (!isset($user_id)) { // ถ้าไม่มีค่า user_id ให้ทำการเปลี่ยนเส้นทางไปยังหน้า login
+        if (!isset($user_id)) { // เช็คถ้าไม่มีค่าเปลี่ยนเส้นทางไปยังหน้า login
             return redirect()->to('/');
         }
 
-        $this->currentMenu = session()->get('current_menu') ?? ''; // กำหนดค่าเริ่มต้นของ currentMenu จากค่าที่เก็บไว้ใน session
+        $this->currentMenu = session()->get('current_menu') ?? ''; 
     }
 
     public function changeMenu($menu)
     {
-        session()->put('current_menu', $menu); // บันทึกค่าของเมนูที่ถูกเลือกลงใน session
-        $this->currentMenu = $menu; // กำหนดค่าของ currentMenu ใหม่
+        session()->put('current_menu', $menu); // บันทึกค่าเมนูที่ถูกเลือก
+        $this->currentMenu = $menu; // กำหนดค่าใหม่
 
-        return redirect()->to('/' . $menu); // ทำการเปลี่ยนเส้นทางไปยังเมนูที่ถูกเลือก
+        return redirect()->to('/' . $menu); 
     }
 
     public function render()

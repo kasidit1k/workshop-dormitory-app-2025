@@ -207,6 +207,7 @@ class Pay extends Component
     {
         $arrayPayLogAmount = $this->payLogAmount;
 
+        // 
         foreach ($arrayPayLogAmount as $key => $value) {
             $payLog = new PayLogModel();
             $payLog->pay_date = $this->payLogDate;

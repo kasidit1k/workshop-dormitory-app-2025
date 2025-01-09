@@ -1,9 +1,9 @@
 <?php 
 
-// ใช้ namespace Route เพื่อกำหนดเส้นทาง (Route) สำหรับการเข้าถึง URL ต่าง ๆ ในแอปพลิเคชัน
+// ใช้ namespace Route กำหนดเส้นทาง (Route) เข้าถึง URL 
 use Illuminate\Support\Facades\Route;
 
-// เรียกใช้งาน Controllers สำหรับหน้า Dashboard
+// เรียกใช้ Controllers สำหรับหน้า Dashboard
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\RoomController;
@@ -12,13 +12,13 @@ use App\Http\Controllers\PayController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BillingController;
 
-// เส้นทางสำหรับหน้าแรกของแอปพลิเคชัน
+// เส้นทางหน้าแรก
 Route::get('/', function () {
-    return view('welcome'); // แสดงหน้า "welcome.blade.php"
+    return view('welcome'); 
 });
 
-// เส้นทางสำหรับหน้า Dashboard
-// ใช้ DashboardController และเรียกเมธอด dashboard เพื่อประมวลผล
+// หน้า Dashboard
+// ใช้ DashboardController และเรียกเมธอด dashboard ใน Controller
 Route::get('/dashboard', [DashboardController::class, 'dashboard']);
 
 Route::get('/company/index', [CompanyController::class, 'index']);

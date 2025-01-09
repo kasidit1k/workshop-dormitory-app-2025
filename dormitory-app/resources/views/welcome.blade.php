@@ -1,5 +1,6 @@
 @extends('layout')
 
 @section('content')
-    @livewire('signin')
+    {{-- ใช้ Livewire Component ชื่อ 'signin' --}}
+    @livewire('signin') 
 @endsection

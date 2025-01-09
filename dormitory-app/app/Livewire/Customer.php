@@ -86,7 +86,7 @@ class Customer extends Component {
         $this->fetchData();
     }
 
-    // ฟังก์ชันลบข้อมูล โดยรับค่า id ของข้อมูลที่ต้องการลบ
+    // ฟังก์ชันลบข้อมูล รับค่า id ของข้อมูลที่ต้องการลบ
     public function openModalDelete($id) {
         $this->showModalDelete = true;
         $this->id = $id;

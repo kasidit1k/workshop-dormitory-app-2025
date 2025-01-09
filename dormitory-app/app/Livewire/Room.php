@@ -5,7 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\RoomModel;
 
-// คลาส Room สืบทอดจาก Component
+
 class Room extends Component
 {
     public $rooms = [];
@@ -22,12 +22,12 @@ class Room extends Component
     public $price_per_month;
     public $nameForDelete;
 
-    // ฟังก์ชันที่ทำงานเมื่อ Component ถูกโหลด
+    // ทำงานเมื่อ Component โหลด
     public function mount(){
         $this->fetchData();
     }
 
-    // ฟังก์ชันสำหรับเปิด Modal เพิ่มข้อมูล
+    // function เปิด Modal เพิ่มข้อมูล
     public function openModal(){
         $this->showModal = true;
         $this->from_number = '';
@@ -36,7 +36,7 @@ class Room extends Component
         $this->price_per_month = '';
     }
 
-    // ฟังก์ชันสำหรับเปิด Modal แก้ไขข้อมูล
+    // function เปิด Modal แก้ไขข้อมูล
     public function openModalEdit($id){
         $this->showModalEdit = true;
         $this->id = $id;
@@ -47,7 +47,7 @@ class Room extends Component
         $this->price_month = $room->price_per_month;
     }
 
-    // ฟังก์ชันสำหรับเปิด Modal ลบข้อมูล
+    // function เปิด Modal ลบข้อมูล
     public function openModalDelete($id){
         $this->showModalDelete = true;
         $this->id = $id;
@@ -56,7 +56,7 @@ class Room extends Component
         $this->nameForDelete = $room->name;
     }
 
-    // ฟังก์ชันสำหรับอัพเดทข้อมูลห้องพัก
+    // function อัพเดทข้อมูลห้อง
     public function updateRoom(){
         $room = RoomModel::find($this->id);
         $room->name = $this->name;
@@ -68,7 +68,7 @@ class Room extends Component
         $this->fetchData();
     }
 
-    // ฟังก์ชันสำหรับลบข้อมูลห้องพัก
+    // function ลบข้อมูลห้อง
     public function deleteRoom(){
         $room = RoomModel::find($this->id);
         $room->status = 'delete';
@@ -78,14 +78,14 @@ class Room extends Component
         $this->fetchData();
     }
 
-    // ฟังก์ชันสำหรับดึงข้อมูลห้องพัก
+    // function ดึงข้อมูลห้อง
     public function fetchData(){
         $this->rooms = RoomModel::where('status', 'use')
             ->orderBy('id', 'asc')
             ->get();
     }
 
-    // ฟังก์ชันสำหรับสร้างห้องพัก
+    // function สร้างห้อง
     public function createRoom(){
         $this->validate([
             'from_number' => 'required',
@@ -94,16 +94,19 @@ class Room extends Component
             'price_per_month' => 'required',
         ]);
 
+        // ตรวจสอบว่าหมายเลขจากไม่เกินหมายเลขถึง
         if($this->from_number > $this->to_number) {
             $this->addError('from_number', 'หมายเลขจากต้องน้อยกว่าหมายเลขถึง');
             return;
         }
 
+        // ตรวจสอบว่าหมายเลขถึงไม่เกิน 1000
         if($this->to_number > 1000) {
             $this->addError('to_number', 'หมายเลขถึงต้องน้อยกว่า 1000');
             return;
         }
 
+        // สร้างห้องตามหมายเลขที่กำหนด
         for ($i = $this->from_number; $i <= $this->to_number; $i++) {
             $room = new RoomModel();
             $room->name = $i;
@@ -117,7 +120,6 @@ class Room extends Component
         $this->fetchData();
     }
 
-    // ฟังก์ชันสำหรับปิด Modal
     public function render()
     {
         return view('livewire.room');

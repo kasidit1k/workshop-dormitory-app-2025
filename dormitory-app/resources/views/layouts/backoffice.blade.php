@@ -19,12 +19,12 @@
         <x-sidebar />
 
         <div class="content w-full"> 
-            @yield('content') <!-- ส่วนของ Content ที่จะแสดงผล -->
+            @yield('content') 
         </div>
     </div>
 
-    @livewireScripts <!-- สร้าง Script สำหรับ Livewire -->
-    @stack('scripts') <!-- สร้าง Script สำหรับ Livewire ที่อยู่ในส่วนของ Content -->
+    @livewireScripts <!-- Script สำหรับ Livewire -->
+    @stack('scripts') <!-- Script สำหรับ Livewire อยู่ในส่วนของ Content -->
 
 </body>
 
