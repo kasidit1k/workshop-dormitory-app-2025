@@ -14,17 +14,17 @@
 </head>
 
 <body class="bg-gray-100">
-    @livewire('navbar')
+    @livewire('navbar') <!-- สร้าง Navbar ด้วย Livewire -->
     <div class="flex">
         <x-sidebar />
 
-        <div class="content w-full">
-            @yield('content')
+        <div class="content w-full"> 
+            @yield('content') <!-- ส่วนของ Content ที่จะแสดงผล -->
         </div>
     </div>
 
-    @livewireScripts
-    @stack('scripts')
+    @livewireScripts <!-- สร้าง Script สำหรับ Livewire -->
+    @stack('scripts') <!-- สร้าง Script สำหรับ Livewire ที่อยู่ในส่วนของ Content -->
 
 </body>
 

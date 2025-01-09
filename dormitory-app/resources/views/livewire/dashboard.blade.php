@@ -1,6 +1,32 @@
 <div>
     <div class="content-header text-lg font-semibold">Dashboard</div>
     <div class="content-body">
+        <div class="flex gap-2 mb-4 items-center">
+            <div class="w-[50px] text-right mr-1">ปี</div>
+            <div class="w-[100px]">
+                <select class="form-control" wire:model="selectedYear">
+                    @foreach ($yearList as $year)
+                        <option value="{{ $year }}">{{ $year }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="w-[50px] text-right mr-1">เดือน</div>
+            <div class="w-[200px]">
+                <select class="form-control" wire:model="selectedMonth">
+                    @foreach ($monthList as $index => $month)
+                        <option value="{{ $index + 1 }}">{{ $month }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="w-[200px]">
+                <button class="btn-info ml-2" wire:click="fetchData">
+                    <i class="fa-solid fa-magnifying-glass mr-2"></i>
+                    แสดงรายการ
+                </button>
+            </div>
+        </div>
         <div class="flex gap-2 text-right">
             <div class="box-income p-2">
                 <div class="font-bold text-sm">
