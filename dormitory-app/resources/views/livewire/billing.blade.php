@@ -46,19 +46,24 @@
                         </td>
                         <td>{{ $billing->remark }}</td>
                         <td>
-                            <button class="btn-edit" wire:click="openModalGetMoney({{ $billing->id }})">
-                                <i class="fa fa-dollar-sign mr-2"></i>
-                            </button>
-                            <button class="btn-edit" wire:click="printBilling({{ $billing->id }})">
-                                <i class="fa fa-file-alt mr-2"></i>
-                            </button>
-                            <button class="btn-edit" wire:click="openModalEdit({{ $billing->id }})">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </button>
-                            <button class="btn-delete"
-                                wire:click="openModalDelete({{ $billing->id }}, '{{ $billing->getCustomer()->name }}')">
-                                <i class="fa fa-times mr-2"></i>
-                            </button>
+                            <div class="flex justify-center gap-2">
+                                <button class="icon-bill" wire:click="openModalGetMoney({{ $billing->id }})">
+                                    <i class="fa fa-dollar-sign mr-2"></i>
+                                </button>
+                                <button class="icon-bill" wire:click="printBilling({{ $billing->id }})">
+                                    <i class="fa fa-file-alt mr-2"></i>
+                                </button>
+
+                                <button class="icon-bill" wire:click="openModalEdit({{ $billing->id }})">
+                                    <i class="fa-regular fa-pen-to-square mr-2"></i>
+                                </button>
+
+                                <button class="icon-bill"
+                                    wire:click="openModalDelete({{ $billing->id }}, '{{ $billing->getCustomer()->name }}')">
+                                    <i class="fa fa-times mr-2"></i>
+                                </button>
+                            </div>
+
                         </td>
                     </tr>
                 @endforeach
@@ -216,8 +221,7 @@
                 </span>
             </div>
             <div class="w-1/2 text-right">
-                <a class="btn-info"
-                    href="print-invoice/{{ $id }}" target="_blank">
+                <a class="btn-info" href="print-invoice/{{ $id }}" target="_blank">
                     <i class="fa fa-print mr-2"></i>
                     พิมพ์ใบเสร็จรับเงิน
                 </a>

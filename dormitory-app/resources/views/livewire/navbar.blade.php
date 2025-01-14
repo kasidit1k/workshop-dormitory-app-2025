@@ -2,12 +2,12 @@
     <div class="flex items-center justify-between">
         <div>
             <i class="fa-solid fa-user me-2"></i>
-            <span class="username">{{ $user_name }}</span>
+            <span class="username">{{ $user_name }} ({{ $userLevel }}) </span>
         </div>
         <div>
             <button wire:click="editProfile"
                 class="border border-blue-700 text-blue-700 px-6 py-2 rounded-lg hover:bg-gray-800 hover:text-white transition mr-2">
-                <i class="fa-solid fa-user me-2"></i>
+                <i class="fa-solid fa-user-pen me-2"></i>
                 แก้ไขข้อมูล
             </button>
 

@@ -21,7 +21,7 @@
             </div>
 
             <div class="w-[200px]">
-                <button class="btn-info ml-2" wire:click="fetchData">
+                <button class="btn-info ml-2" wire:click="loadNewData">
                     <i class="fa-solid fa-magnifying-glass mr-2"></i>
                     แสดงรายการ
                 </button>
@@ -77,206 +77,165 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
         document.addEventListener('livewire:init', function() {
-            // สร้างธีมกลางสำหรับทั้งสองกราฟ
-            const commonTheme = {
-                chart: {
-                    foreColor: '#334155',
-                    fontFamily: 'Inter, system-ui, -apple-system, sans-serif',
-                    background: '#ffffff',
-                    animations: {
-                        enabled: true,
-                        easing: 'easeinout',
-                        speed: 800,
-                        animateGradually: {
-                            enabled: true,
-                            delay: 150
-                        },
-                        dynamicAnimation: {
-                            enabled: true,
-                            speed: 300
-                        }
-                    }
-                },
-                colors: ['#334155', '#64348b', '#94a3b8'],
-                title: {
-                    style: {
-                        fontSize: '24px',
-                        fontWeight: '600',
-                        color: '#1e293b'
-                    },
-                    margin: 30
-                },
-                tooltip: {
-                    theme: 'light',
-                    style: {
-                        fontSize: '14px'
-                    },
-                    y: {
-                        formatter: function(value) {
-                            return value.toLocaleString('th-TH') + ' บาท';
-                        }
-                    }
-                }
-            };
+            var incomeChart = null;
+            var pieChart = null;
 
-            // กราฟแท่งรายได้รายเดือน
-            const barOptions = {
-                ...commonTheme,
-                chart: {
-                    ...commonTheme.chart,
-                    type: 'bar',
-                    height: 400,
-                    toolbar: {
-                        show: false
-                    }
-                },
-                series: [{
-                    name: 'รายได้',
-                    data: @json(array_values($incomeInMonths))
-                }],
-                plotOptions: {
-                    bar: {
-                        borderRadius: 6,
-                        columnWidth: '45%',
-                        distributed: false,
-                        rangeBarOverlap: true,
-                        dataLabels: {
-                            position: 'top'
-                        }
-                    }
-                },
-                dataLabels: {
-                    enabled: true,
-                    formatter: function(val) {
-                        return val.toLocaleString('th-TH') + ' ฿';
+            function initIncomeChart() {
+                const options = {
+                    chart: {
+                        type: 'bar',
+                        height: 350,
+                        toolbar: {
+                            show: true,
+                            tools: {
+                                download: true,
+                                selection: false,
+                                zoom: false,
+                                zoomin: false,
+                                zoomout: false,
+                                pan: false,
+                            }
+                        },
+                        fontFamily: 'Sarabun, sans-serif'
                     },
-                    offsetY: -20,
-                    style: {
-                        fontSize: '13px',
-                        colors: ['#475561'],
-                        fontWeight: '500'
-                    }
-                },
-                xaxis: {
-                    categories: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.',
-                        'ต.ค.', 'พ.ย.', 'ธ.ค.'
-                    ],
-                    labels: {
-                        style: {
-                            fontSize: '13px',
-                            fontWeight: '500'
+                    series: [{
+                        name: 'รายได้',
+                        data: @json(array_values($incomeInMonths))
+                    }],
+                    plotOptions: {
+                        bar: {
+                            borderRadius: 4,
+                            columnWidth: '60%',
+                            dataLabels: {
+                                position: 'top'
+                            }
                         }
                     },
-                    axisBorder: {
-                        show: false
-                    },
-                    axisTicks: {
-                        show: false
-                    }
-                },
-                yaxis: {
-                    labels: {
+                    dataLabels: {
+                        enabled: true,
                         formatter: function(val) {
                             return val.toLocaleString('th-TH') + ' ฿';
                         },
+                        offsetY: -20,
                         style: {
-                            fontSize: '13px'
+                            fontSize: '12px',
+                            colors: ["#304758"]
                         }
-                    }
-                },
-                grid: {
-                    borderColor: '#f1f5f9',
-                    strokeDashArray: 5,
-                    padding: {
-                        top: 20,
-                        right: 15,
-                        bottom: 0,
-                        left: 15
-                    }
-                },
-                states: {
-                    hover: {
-                        filter: {
-                            type: 'darken',
-                            value: 0.9
+                    },
+                    xaxis: {
+                        categories: [
+                            'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.',
+                            'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'
+                        ],
+                        position: 'bottom',
+                        labels: {
+                            style: {
+                                fontSize: '12px'
+                            }
                         }
-                    }
-                },
-                title: {
-                    text: 'รายได้รายเดือน',
-                    align: 'center'
-                }
-            };
-
-            // กราฟวงกลมแสดงสัดส่วน
-            const pieOptions = {
-                ...commonTheme,
-                chart: {
-                    ...commonTheme.chart,
-                    type: 'donut',
-                    height: 400
-                },
-                series: @json($incomePie),
-                labels: ['รายวัน', 'รายเดือน'],
-                plotOptions: {
-                    pie: {
-                        donut: {
-                            size: '70%',
-                            background: 'transparent',
-                            labels: {
-                                show: true,
-                                name: {
-                                    show: true,
-                                    fontSize: '16px',
-                                    offsetY: 0
-                                },
-                                value: {
-                                    show: true,
-                                    fontSize: '20px',
-                                    fontWeight: '600',
-                                    formatter: function(val) {
-                                        return val.toLocaleString('th-TH') + ' ฿';
-                                    }
-                                },
-                                total: {
-                                    show: true,
-                                    label: 'รายได้ทั้งหมด',
-                                    fontSize: '16px',
-                                    fontWeight: '600',
-                                    formatter: function(w) {
-                                        const total = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
-                                        return total.toLocaleString('th-TH') + ' ฿';
-                                    }
-                                }
+                    },
+                    yaxis: {
+                        labels: {
+                            formatter: function(val) {
+                                return val.toLocaleString('th-TH') + ' ฿';
+                            },
+                            style: {
+                                fontSize: '12px'
+                            }
+                        }
+                    },
+                    title: {
+                        text: 'รายได้รายเดือน ประจำปี ' + new Date().getFullYear(),
+                        align: 'center',
+                        style: {
+                            fontSize: '16px',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    colors: ['#2E5CB8'],
+                    grid: {
+                        borderColor: '#E9ECEF',
+                        strokeDashArray: 4
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: function(val) {
+                                return val.toLocaleString('th-TH') + ' บาท';
                             }
                         }
                     }
-                },
-                stroke: {
-                    show: false
-                },
-                legend: {
-                    position: 'bottom',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    markers: {
-                        width: 10,
-                        height: 10,
-                        radius: 5
-                    },
-                    itemMargin: {
-                        horizontal: 15
-                    }
-                },
-                title: {
-                    text: 'สัดส่วนรายได้ตามประเภท',
-                    align: 'center'
-                }
-            };
+                };
 
-            // สร้างกราฟ
-            new ApexCharts(document.querySelector("#incomeChart"), barOptions).render();
-            new ApexCharts(document.querySelector("#pieChart"), pieOptions).render();
+                incomeChart = new ApexCharts(document.querySelector('#incomeChart'), options);
+                incomeChart.render();
+            }
+
+            function initPieChart() {
+                const pieOptions = {
+                    series: @json(array_values($incomePie)),
+                    chart: {
+                        type: 'pie',
+                        height: 350,
+                        fontFamily: 'Sarabun, sans-serif'
+                    },
+                    labels: ['รายวัน', 'รายเดือน'],
+                    title: {
+                        text: 'สัดส่วนรายได้แยกตามประเภท',
+                        align: 'center',
+                        style: {
+                            fontSize: '16px',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    colors: ['#4B7BE5', '#6259CA'],
+                    legend: {
+                        position: 'bottom',
+                        fontSize: '14px'
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        formatter: function(val) {
+                            return val.toFixed(1) + "%"
+                        }
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: function(val) {
+                                return val.toLocaleString('th-TH') + ' บาท';
+                            }
+                        }
+                    },
+                    responsive: [{
+                        breakpoint: 480,
+                        options: {
+                            chart: {
+                                width: 300
+                            },
+                            legend: {
+                                position: 'bottom'
+                            }
+                        }
+                    }]
+                };
+
+                pieChart = new ApexCharts(document.querySelector('#pieChart'), pieOptions);
+                pieChart.render();
+            }
+
+            initIncomeChart();
+            initPieChart();
+
+            // อัพเดทกราฟเมื่อข้อมูลเปลี่ยนแปลง
+            Livewire.on('updateCharts', (data) => {
+                if (incomeChart) {
+                    incomeChart.updateSeries([{
+                        data: data.incomeInMonths
+                    }]);
+                }
+                if (pieChart) {
+                    pieChart.updateSeries(data.incomePie);
+                }
+            });
         });
     </script>
 @endpush

@@ -22,8 +22,19 @@ class Room extends Component
     public $price_per_month;
     public $nameForDelete;
 
+
+    // paginate
+    public $itemsPerPage = 5;
+    public $currentPage = 1;
+    public $totalPages;
+
     // ทำงานเมื่อ Component โหลด
     public function mount(){
+        $this->fetchData();
+    }
+
+    public function setPage($page) {
+        $this->currentPage = $page;
         $this->fetchData();
     }
 
@@ -45,6 +56,18 @@ class Room extends Component
         $this->name = $room->name;
         $this->price_day = $room->price_per_day;
         $this->price_month = $room->price_per_month;
+    }
+
+    // function กดปุ่มถัดไป
+    public function nextPage() {
+        $this->currentPage++;
+        $this->fetchData();
+    }
+
+    // function กดปุ่มก่อนหน้า
+    public function prevPage() {
+        $this->currentPage--;
+        $this->fetchData(); 
     }
 
     // function เปิด Modal ลบข้อมูล
@@ -80,10 +103,19 @@ class Room extends Component
 
     // function ดึงข้อมูลห้อง
     public function fetchData(){
+        $this->rooms = [];
+        $start = ($this->currentPage - 1) * $this->itemsPerPage;
+        $end = $this->itemsPerPage;
+
         $this->rooms = RoomModel::where('status', 'use')
             ->orderBy('id', 'asc')
+            ->skip($start)
+            ->take($end)
             ->get();
-    }
+
+            $totalRooms = RoomModel::where('status', 'use')->count();
+            $this->totalPages = ceil($totalRooms / $this->itemsPerPage);
+        }
 
     // function สร้างห้อง
     public function createRoom(){

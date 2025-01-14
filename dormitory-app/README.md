@@ -80,7 +80,7 @@ php artisan make:livewire signin
 php artisan storage:link
 ```
 
-## คำสั่ง ติดตั้ง APEXCHARTS.JS
+## คำสั่ง ติดตั้ง APEXCHARTS.JS เพื่อสร้างกราฟ
 
 ```
 npm install apexcharts

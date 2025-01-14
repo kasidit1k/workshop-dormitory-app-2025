@@ -63,7 +63,7 @@
 
 @if (isset($billing->remark))
     <div>&nbsp;</div>
-    <div class="text-red-600">*** หมายเหตุ ***</div>
+    <div>*** หมายเหตุ ***</div>
     <div>{{ $billing->remark }}</div>
 @endif
 

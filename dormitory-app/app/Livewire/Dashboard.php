@@ -39,6 +39,12 @@ class Dashboard extends Component
         $this->selectedYear = date('Y');
         $this->selectedMonth = date('m');
 
+        // อ่านฟอร์ม url ถ้ามีการส่งค่า year และ month 
+        if (request()->has('year') && request()->has('month')) {
+            $this->selectedYear = request()->query('year');
+            $this->selectedMonth = request()->query('month');
+        }
+
         // สร้างรายการปี 5 ปีย้อนหลัง
         for ($i = 0; $i < 5; $i++) {
             $this->yearList[] = date('Y') - $i;
@@ -103,10 +109,8 @@ class Dashboard extends Component
             $this->incomeInMonths[$i] = $sum;
         }
 
-        // random income per 12 months
-        for ($i = 1; $i <= 12; $i++) {
-            $this->incomeInMonths[$i] = rand(1000, 10000);
-        }
+        
+        
 
         $incomeTypeDay = rand(1000, 10000);
         $incomeTypeMonth = rand(1000, 10000);
@@ -117,6 +121,12 @@ class Dashboard extends Component
         ];
 
         $this->dispatch('incomeUpdated');
+    }
+
+
+    // function เปลี่ยนปีและเดือน
+    public function loadNewData() {
+        return redirect()->to('/dashboard?year=' . $this->selectedYear  . '$month=' . $this->selectedMonth);
     }
 
     public function render()

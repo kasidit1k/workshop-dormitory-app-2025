@@ -19,6 +19,7 @@ class Navbar extends Component
     public $errorUsername;
     public $errorPassword;
     public $saveSuccess = false;
+    public $userLevel = '';
 
     // ฟังก์ชันที่ใช้เปิด Modal สำหรับการแก้ไขข้อมูลของผู้ใช้
     public function editProfile()
@@ -61,6 +62,7 @@ class Navbar extends Component
     {
         // ดึงข้อมูลชื่อผู้ใช้จาก session
         $this->user_name = session()->get('user_name');
+        $this->userLevel = session()->get('user_level');
     }
 
     // ฟังก์ชันออกจากระบบ

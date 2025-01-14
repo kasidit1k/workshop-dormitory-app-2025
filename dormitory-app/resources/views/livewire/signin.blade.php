@@ -1,8 +1,8 @@
-<div class="mx-auto flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-blue-600 to-blue-200">
+<div class="mx-auto flex flex-col items-center justify-center h-screen bg-gradient-to-tr from-blue-600 to-blue-300">
     <div class="w-full max-w-sm border border-gray-300 rounded-lg p-8 bg-white shadow-lg">
-        <div class="text-2xl font-semibold text-blue-700 mb-6">
-            <i class="fa fa-user me-2"></i>
-            Sign In to BackOffice
+        <div class="text-2xl font-semibold text-blue-800 mb-6">
+            <i class="fa-solid fa-users me-2"></i>
+            Sign In To BackOffice
         </div>
 
         <form class="space-y-6" wire:submit="signin">

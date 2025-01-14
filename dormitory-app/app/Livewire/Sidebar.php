@@ -8,6 +8,7 @@ use Livewire\Component;
 class Sidebar extends Component 
 {
     public $currentMenu = ''; // เก็บค่าเมนูที่ถูกเลือก
+    public $userLevel = ''; 
 
     public function mount()
     {
@@ -17,7 +18,8 @@ class Sidebar extends Component
             return redirect()->to('/');
         }
 
-        $this->currentMenu = session()->get('current_menu') ?? ''; 
+        $this->currentMenu = session()->get('current_menu') ?? '';
+        $this->userLevel = session()->get('user_level');  
     }
 
     public function changeMenu($menu)

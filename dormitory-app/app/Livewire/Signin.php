@@ -5,9 +5,9 @@ namespace App\Livewire; // กำหนด namespace อยู่ในโฟล
 use Livewire\Component;
 use Illuminate\Support\Facades\Validator; // Validator ตรวจสอบข้อมูล
 use App\Models\User; // User เพื่อดึงข้อมูลผู้ใช้จาก Database
-use Illuminate\Support\Facades\Hash; // Hash ตรวจสอบรหัสผ่านแบบเข้ารหัส
+use Illuminate\Support\Facades\Hash; // ตรวจสอบรหัสผ่านแบบเข้ารหัส
 
-// Signin
+
 class Signin extends Component
 {
     public $username; 
@@ -19,7 +19,7 @@ class Signin extends Component
     
     public function signin()
     {
-        // เคลียร์ค่าข้อผิดพลาดก่อนการตรวจสอบ
+        // เคลียร์ค่าก่อนการตรวจสอบ
         $this->errorUsername = null;
         $this->errorPassword = null;
 
@@ -32,12 +32,11 @@ class Signin extends Component
             'password' => 'required' 
         ]);
 
-        // ตรวจสอบล้มเหลวบันทึกข้อผิดพลาดลงในตัวแปร
         if ($validator->fails()) {
             $this->errorUsername = $validator->errors()->get('username')[0] ?? null; 
             $this->errorPassword = $validator->errors()->get('password')[0] ?? null; 
         } else {
-            // ตรวจสอบว่ามีชื่อผู้ใช้ในฐานข้อมูลหรือไม่
+            
             $user = User::where('name', $this->username)
                 ->first();
 

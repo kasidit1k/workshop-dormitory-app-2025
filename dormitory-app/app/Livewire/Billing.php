@@ -36,6 +36,7 @@ class Billing extends Component
         ['status' => 'paid', 'name' => 'ชำระเงินแล้ว'],
         ['status' => 'next', 'name' => 'ขอค้างจ่าย'],
     ];
+    // ตัวแปรการแก้ไขข้อมูล
     public $sumAmount = 0;
     public $roomForDelete;
     public $waterUnit = 0;
@@ -44,7 +45,7 @@ class Billing extends Component
     public $electricCostPerUnit = 0;
     public $roomNameForEdit = '';
 
-    // get money
+    // ตัวแปรการรับเงิน
     public $roomNameForGetMoney = '';
     public $customerNameForGetMoney = '';
     public $payedDateForGetMoney = '';
@@ -61,6 +62,7 @@ class Billing extends Component
         $this->status = 'wait';
     }
 
+    // function ดึงข้อมูลจากฐานข้อมูล
     public function fetchData()
     {
         $customers = CustomerModel::where('status', 'use')->get();
@@ -94,21 +96,25 @@ class Billing extends Component
         }
     }
 
+    
     public function render()
     {
         return view('livewire.billing');
     }
 
+    // function เปิด Modal
     public function openModal()
     {
         $this->showModal = true;
     }
 
+    // function ปิด Modal
     public function closeModal()
     {
         $this->showModal = false;
     }
 
+    // function คำนวณค่าน้ำ ค่าไฟ และค่าอื่นๆ
     public function selectedRoom()
     {
         $room = RoomModel::find($this->roomId);
@@ -135,6 +141,7 @@ class Billing extends Component
         $this->computeSumAmount();
     }
 
+    // function คำนวณค่าน้ำ ค่าไฟ และค่าอื่นๆ
     public function computeSumAmount()
     {
         if ($this->waterUnit > 0) {
@@ -153,7 +160,7 @@ class Billing extends Component
             + $this->amountBin + $this->amountEtc;
     }
 
-    // ฟังก์ชันที่ใช้สำหรับบันทึกข้อมูล
+    // function บันทึกข้อมูล
     public function save()
     {
         $billing = new BillingModel();
@@ -186,7 +193,7 @@ class Billing extends Component
         $this->waterCostPerUnit = 0;
     }
 
-    // ฟังก์ชันที่ใช้สำหรับแก้ไขข้อมูล
+    // function แก้ไขข้อมูล
     public function openModalEdit($id)
     {
         $this->showModal = true;
@@ -207,13 +214,13 @@ class Billing extends Component
         $this->computeSumAmount();
     }
 
-    // ฟังก์ชันที่ใช้สำหรับลบข้อมูล
+    // function ปิด Modal แก้ไขข้อมูล
     public function closeModalEdit()
     {
         $this->showModal = false;
     }
 
-    // ฟังก์ชันที่ใช้สำหรับลบข้อมูล
+    // function ลบข้อมูล
     public function openModalDelete($id, $name)
     {
         $this->showModalDelete = true;
@@ -221,13 +228,13 @@ class Billing extends Component
         $this->roomForDelete = $name;
     }
 
-    // ฟังก์ชันที่ใช้สำหรับลบข้อมูล
+    // function ปิด Modal ลบข้อมูล
     public function closeModalDelete()
     {
         $this->showModalDelete = false;
     }
 
-    // ฟังก์ชันที่ใช้สำหรับลบข้อมูล
+    // function ลบข้อมูล
     public function deleteBilling()
     {
         $billing = BillingModel::find($this->id);
@@ -237,7 +244,7 @@ class Billing extends Component
         $this->closeModalDelete();
     }
 
-    // ฟังก์ชันที่ใช้สำหรับเปิด Modal การรับเงิน
+    // function แก้ไขข้อมูล
     public function openModalGetMoney($id)
     {
         $billing = BillingModel::find($id);
@@ -252,7 +259,7 @@ class Billing extends Component
         $this->amountForGetMoney = $this->sumAmountForGetMoney + $this->moneyAdded;
     }
 
-    // ฟังก์ชันที่ใช้สำหรับปิด Modal การรับเงิน
+    // function ปิด Modal รับเงิน
     public function closeModalGetMoney()
     {
         $this->showModalGetMoney = false;
@@ -266,7 +273,7 @@ class Billing extends Component
         $this->amountForGetMoney = 0;
     }
 
-    // ฟังก์ชันที่ใช้สำหรับคำนวณจำนวนเงินที่ต้องจ่าย
+    // function คำนวณจำนวนเงินที่ต้องจ่าย
     public function handleChangeAmountForGetMoney()
     {
         $billing = BillingModel::find($this->id);
@@ -274,13 +281,13 @@ class Billing extends Component
         $this->amountForGetMoney = $billing->sumAmount() + $this->moneyAdded;
     }
 
-    // ฟังก์ชันที่ใช้สำหรับปริ้นใบแจ้งหนี้
+    // function พิมพ์ใบแจ้งหนี้
     public function printBilling($billingId)
     {
         return redirect()->to('print-billing/' . $billingId);
     }
 
-    // ฟังก์ชันที่ใช้สำหรับบันทึกข้อมูล
+    // function บันทึกการรับเงิน
     public function saveGetMoney()
     {
         $billing = BillingModel::find($this->id);

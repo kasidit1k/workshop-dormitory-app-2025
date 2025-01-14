@@ -9,9 +9,7 @@
     </div>
 
     <div class="content-body p-6">
-        <button
-            class="btn-info"
-            wire:click="openModal">
+        <button class="btn-info" wire:click="openModal">
             <i class="fa-solid fa-plus mr-2"></i>
             เพิ่มห้องพัก
         </button>
@@ -33,12 +31,10 @@
                             <td class="text-right text-gray-600">{{ number_format($room->price_per_day) }} บาท</td>
                             <td class="text-right text-gray-600">{{ number_format($room->price_per_month) }} บาท</td>
                             <td class="text-center">
-                                <button class="btn-edit"
-                                    wire:click="openModalEdit({{ $room->id }})">
+                                <button class="btn-edit" wire:click="openModalEdit({{ $room->id }})">
                                     <i class="fa-regular fa-pen-to-square"></i>
                                 </button>
-                                <button class="btn-delete"
-                                    wire:click="openModalDelete({{ $room->id, $room->name }})">
+                                <button class="btn-delete" wire:click="openModalDelete({{ $room->id, $room->name }})">
                                     <i class="fa-solid fa-xmark"></i>
                                 </button>
                             </td>
@@ -46,6 +42,46 @@
                     @endforeach
                 </tbody>
             </table>
+            <div class="mt-3">ข้อมูลทั้งหมด {{ $totalPages }} หน้า</div>
+            <div class="flex justify-center">
+                {{-- หน้าแรก --}}
+                @if ($currentPage > 1)
+                    <button class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md mr-2"
+                        wire:click="setPage(1)">
+                        หน้าแรก
+                    </button>
+                @else
+                    <button class="bg-gray-400 text-white px-4 py-2 rounded-md mr-2" disabled>
+                        หน้าแรก
+                    </button>
+                @endif
+
+                {{-- หน้าอื่น --}}
+                @for ($i = 2; $i < $totalPages; $i++)
+                    @if ($i == $currentPage)
+                        <button class="bg-gray-400 text-white px-4 py-2 rounded-md mr-2" disabled>
+                            {{ $i }}
+                        </button>
+                    @else
+                        <button class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md mr-2"
+                            wire:click="setPage({{ $i }})">
+                            {{ $i }}
+                        </button>
+                    @endif
+                @endfor
+
+                {{-- หน้าสุดท้าย --}}
+                @if ($currentPage < $totalPages)
+                    <button class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-md mr-2"
+                        wire:click="setPage({{ $totalPages }})">
+                        หน้าสุดท้าย
+                    </button>
+                @else
+                    <button class="bg-gray-400 text-white px-4 py-2 rounded-md mr-2" disabled>
+                        หน้าสุดท้าย
+                    </button>
+                @endif
+            </div>
         </div>
     </div>
 
@@ -85,14 +121,11 @@
             </div>
 
             <div class="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
-                <button
-                    class="px-4 py-2 btn-secondary"
-                    wire:click="showModal = false">
+                <button class="px-4 py-2 btn-secondary" wire:click="showModal = false">
                     <i class="fa-solid fa-xmark mr-2"></i>
                     ยกเลิก
                 </button>
-                <button
-                    class="px-4 py-2 btn-success" wire:click="createRoom">
+                <button class="px-4 py-2 btn-success" wire:click="createRoom">
                     <i class="fa-solid fa-check mr-2"></i>
                     สร้างห้องพัก
                 </button>
@@ -119,15 +152,11 @@
             </div>
 
             <div class="flex justify-end gap-3 pt-6 border-t border-gray-100">
-                <button
-                    class="btn-secondary"
-                    wire:click="showModalEdit = false">
+                <button class="btn-secondary" wire:click="showModalEdit = false">
                     <i class="fa-solid fa-xmark mr-2"></i>
                     ยกเลิก
                 </button>
-                <button
-                    class="btn-success"
-                    wire:click="updateRoom">
+                <button class="btn-success" wire:click="updateRoom">
                     <i class="fa-solid fa-check mr-2"></i>
                     บันทึก
                 </button>
